@@ -1,10 +1,22 @@
-# Spring Boot application template
+# Message Version Standards HMCTS
 
 ## Purpose
 
-The purpose of this template is to speed up the creation of new Spring applications within HMCTS
-and help keep the same standards across multiple teams. If you need to create a new app, you can
-simply use this one as a starting point and build on top of it.
+This is a demonstration of Message Versioning Standards in HMCTS.
+
+Build a simple demo app (can be all local using Active MQ) demonstrating the preferred versioning approach.
+
+https://tools.hmcts.net/jira/browse/DTSSE-3664
+
+See also the presentation
+
+https://tools.hmcts.net/jira/browse/DTSSE-3665
+
+See also the Confluence
+
+https://tools.hmcts.net/confluence/display/DATS/Message+Versioning+Standards
+
+
 
 ## What's inside
 
@@ -171,3 +183,8 @@ There is no need to remove postgres and java or similar core images.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
+
+
+Peter Pilgrim
+
+July - October 2023

@@ -177,17 +177,68 @@ repositories {
 }
 
 ext {
-  log4JVersion = "2.20.0"
+  log4JVersion          = "2.20.0"
+  lombokVersion         = "1.18.30"
+  artemisJMSServer      = "2.31.0"
+  jacksonMappingVersion = "2.15.2"
+  jaywayJsonPathVersion = "2.8.0"
+  junitVersion          = "5.10.0"
+  hamcrestVersion       = "2.2"
+  mockitoVersion        = "5.4.0"
 }
 
 ext['snakeyaml.version'] = '2.0'
 
 dependencies {
+  // https://mvnrepository.com/artifact/org.projectlombok/lombok
+  // https://projectlombok.org/setup/gradle
+  compileOnly("org.projectlombok:lombok:${lombokVersion}")
+  annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+  testImplementation("org.projectlombok:lombok:${lombokVersion}")
+
+/*
+
+	implementation("org.springframework.boot:spring-boot-starter-activemq")
+	implementation("org.springframework.boot:spring-boot-starter-artemis")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework:spring-jms")
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${Versions.jacksonMappingVersion}")
+	implementation("com.fasterxml.jackson.core:jackson-core:${Versions.jacksonMappingVersion}")
+	implementation("com.jayway.jsonpath:json-path:${Versions.jaywayJsonPathVersion}")
+
+	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	testImplementation("org.hamcrest:hamcrest:${Versions.hamcrestVersion}")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.junitVersion}")
+	testImplementation("org.junit.jupiter:junit-jupiter-engine:${Versions.junitVersion}")
+	testImplementation("org.junit.jupiter:junit-jupiter-params:${Versions.junitVersion}")
+	testImplementation("org.mockito:mockito-core:${Versions.mockitoVersion}")
+	testImplementation("org.mockito:mockito-junit-jupiter:${Versions.mockitoVersion}")
+
+// https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher
+	testImplementation("org.junit.platform:junit-platform-launcher:${Versions.junitPlatformLauncherVersion}")
+
+// https://mvnrepository.com/artifact/org.apache.activemq/artemis-jms-server
+	testImplementation("org.apache.activemq:artemis-jms-server:${Versions.artemisJMSServer}")
+
+	// https://mvnrepository.com/artifact/org.apache.activemq/artemis-junit-5
+	testImplementation("org.apache.activemq:artemis-junit-5:2.31.0")
+
+ */
+
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
   implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.2.0'
+  implementation("org.springframework.boot:spring-boot-starter-activemq")
+  implementation("org.springframework.boot:spring-boot-starter-artemis")
+
+  implementation("org.springframework:spring-jms")
+  implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jacksonMappingVersion}")
+  implementation("com.fasterxml.jackson.core:jackson-core:${jacksonMappingVersion}")
+  implementation("com.jayway.jsonpath:json-path:${jaywayJsonPathVersion}")
 
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
 
@@ -196,12 +247,21 @@ dependencies {
 
   implementation group: 'io.rest-assured', name: 'rest-assured'
 
-  testImplementation(platform('org.junit:junit-bom:5.10.0'))
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
   testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+
+  testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
+
+// https://mvnrepository.com/artifact/org.apache.activemq/artemis-jms-server
+  testImplementation("org.apache.activemq:artemis-jms-server:${artemisJMSServer}")
+
+  // https://mvnrepository.com/artifact/org.apache.activemq/artemis-junit-5
+  testImplementation("org.apache.activemq:artemis-junit-5:${artemisJMSServer}")
 }
 
 mainClassName = 'uk.gov.hmcts.reform.demo.Application'
@@ -221,4 +281,11 @@ rootProject.tasks.named("processSmokeTestResources") {
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
+}
+
+tasks.test {
+  testLogging {
+    events ("passed", "skipped", "failed")
+    displayGranularity = 1
+  }
 }
